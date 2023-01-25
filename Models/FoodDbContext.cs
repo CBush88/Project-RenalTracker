@@ -38,6 +38,10 @@ public partial class FoodDbContext : DbContext
         modelBuilder.Entity<BrandedFood>(entity =>
         {
             entity.Property(e => e.FdcId).ValueGeneratedNever();
+
+            entity.HasOne(d => d.Fdc).WithOne(p => p.BrandedFood)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_branded_food_food");
         });
 
         modelBuilder.Entity<Food>(entity =>
@@ -48,19 +52,22 @@ public partial class FoodDbContext : DbContext
         modelBuilder.Entity<FoodAttribute>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
+
+            entity.HasOne(d => d.Fdc).WithMany(p => p.FoodAttributes)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_food_attribute_food");
         });
 
         modelBuilder.Entity<FoodNutrient>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
+
+            entity.HasOne(d => d.Fdc).WithMany(p => p.FoodNutrients)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_food_nutrient_food");
         });
 
         modelBuilder.Entity<FoodUpdateLogEntry>(entity =>
-        {
-            entity.Property(e => e.Id).ValueGeneratedNever();
-        });
-
-        modelBuilder.Entity<Nutrient>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
         });

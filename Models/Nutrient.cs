@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RenalTracker.Models;
 
+[Keyless]
 [Table("nutrient")]
 public partial class Nutrient
 {
-    [Key]
     [Column("id")]
-    public int Id { get; set; }
+    public short Id { get; set; }
 
     [Column("name")]
     [StringLength(100)]

@@ -27,4 +27,13 @@ public partial class Food
 
     [Column("publication_date", TypeName = "date")]
     public DateTime? PublicationDate { get; set; }
+
+    [InverseProperty("Fdc")]
+    public virtual BrandedFood? BrandedFood { get; set; }
+
+    [InverseProperty("Fdc")]
+    public virtual ICollection<FoodAttribute> FoodAttributes { get; } = new List<FoodAttribute>();
+
+    [InverseProperty("Fdc")]
+    public virtual ICollection<FoodNutrient> FoodNutrients { get; } = new List<FoodNutrient>();
 }

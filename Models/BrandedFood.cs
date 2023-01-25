@@ -84,4 +84,8 @@ public partial class BrandedFood
     [Column("short_description")]
     [Unicode(false)]
     public string? ShortDescription { get; set; }
+
+    [ForeignKey("FdcId")]
+    [InverseProperty("BrandedFood")]
+    public virtual Food Fdc { get; set; } = null!;
 }

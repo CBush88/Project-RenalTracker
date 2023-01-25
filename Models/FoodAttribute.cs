@@ -30,4 +30,8 @@ public partial class FoodAttribute
 
     [Column("value")]
     public byte Value { get; set; }
+
+    [ForeignKey("FdcId")]
+    [InverseProperty("FoodAttributes")]
+    public virtual Food Fdc { get; set; } = null!;
 }

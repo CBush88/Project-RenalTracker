@@ -48,4 +48,8 @@ public partial class FoodNutrient
     [Column("min_year_acquired")]
     [StringLength(1)]
     public string? MinYearAcquired { get; set; }
+
+    [ForeignKey("FdcId")]
+    [InverseProperty("FoodNutrients")]
+    public virtual Food Fdc { get; set; } = null!;
 }
