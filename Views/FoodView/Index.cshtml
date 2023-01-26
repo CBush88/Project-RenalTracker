@@ -1,0 +1,30 @@
+﻿@model RenalTracker.ViewModel.FoodViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BrandedFood.First().BrandOwner)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Food.First().Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    @for(int i = 0; i < Model.Food.Count(); i++)
+    {
+        <tr>
+        <td>@Html.DisplayFor(item => Model.BrandedFood.ElementAt(i).BrandOwner)</td>
+        <td>@Html.DisplayFor(item => Model.Food.ElementAt(i).Description)</td>
+        <td><a asp-action="Details" asp-route-id="@Model.Food.ElementAt(i).FdcId">Details</a></td>
+        </tr>
+    }
+
+</table>

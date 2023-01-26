@@ -1,0 +1,57 @@
+﻿@model RenalTracker.ViewModel.FoodViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.BrandedFood.First().BrandOwner)
+    </dt>
+    <dt class="col-sm-10">
+        @Html.DisplayFor(model => model.BrandedFood.First().BrandOwner)
+    </dt>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Food.First().Description)
+    </dt>
+    <dt class="col-sm-10">
+        @Html.DisplayFor(model => model.Food.First().Description)
+    </dt>
+    <dt class="col-sm-2">
+        Nutrients:
+    </dt>
+    <dt class="col-sm-10">
+        @for (int i = 0; i < Model.FoodNutrient?.Count(); i++)
+        {
+            int nutrientId = Model.FoodNutrient.ElementAt(i).NutrientId;
+            @if (nutrientId == 1091 || (nutrientId == 1092 && Model.FoodNutrient.ElementAt(i).Amount > 200) || (nutrientId == 1093 && Model.FoodNutrient.ElementAt(i).Amount > 240))
+            {
+                <span class="text-danger">
+                    @Html.DisplayFor(model => model.Nutrient!.Where(item => item.Id == nutrientId).First().Name)
+                    <span>&nbsp;</span>
+                    @Html.DisplayFor(model => model.FoodNutrient!.ElementAt(i).Amount)
+                    @Html.DisplayFor(model => model.Nutrient!.Where(i => i.Id == nutrientId).First().UnitName)
+                    <br />
+                </span>
+            }
+            else
+            {
+                <span>
+                    @Html.DisplayFor(model => model.Nutrient!.Where(item => item.Id == nutrientId).First().Name)
+                    <span>&nbsp;</span>
+                    @Html.DisplayFor(model => model.FoodNutrient!.ElementAt(i).Amount)
+                    @Html.DisplayFor(model => model.Nutrient!.Where(i => i.Id == nutrientId).First().UnitName)
+                    <br />
+                </span>
+            }
+        }
+    </dt>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.BrandedFood.First().Ingredients)
+    </dt>
+    <dt class="col-sm10 fst-italic">
+        @Html.DisplayFor(model => model.BrandedFood.First().Ingredients)
+    </dt>
+</dl>
+
