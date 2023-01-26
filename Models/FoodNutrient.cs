@@ -52,4 +52,8 @@ public partial class FoodNutrient
     [ForeignKey("FdcId")]
     [InverseProperty("FoodNutrients")]
     public virtual Food Fdc { get; set; } = null!;
+
+    [ForeignKey("NutrientId")]
+    [InverseProperty("FoodNutrients")]
+    public virtual Nutrient Nutrient { get; set; } = null!;
 }

@@ -65,9 +65,18 @@ public partial class FoodDbContext : DbContext
             entity.HasOne(d => d.Fdc).WithMany(p => p.FoodNutrients)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_food_nutrient_food");
+
+            entity.HasOne(d => d.Nutrient).WithMany(p => p.FoodNutrients)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_food_nutrient_nutrient");
         });
 
         modelBuilder.Entity<FoodUpdateLogEntry>(entity =>
+        {
+            entity.Property(e => e.Id).ValueGeneratedNever();
+        });
+
+        modelBuilder.Entity<Nutrient>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
         });

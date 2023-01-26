@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RenalTracker.Models;
 
-[Keyless]
 [Table("nutrient")]
 public partial class Nutrient
 {
+    [Key]
     [Column("id")]
     public short Id { get; set; }
 
@@ -26,4 +26,7 @@ public partial class Nutrient
 
     [Column("rank")]
     public double? Rank { get; set; }
+
+    [InverseProperty("Nutrient")]
+    public virtual ICollection<FoodNutrient> FoodNutrients { get; } = new List<FoodNutrient>();
 }
