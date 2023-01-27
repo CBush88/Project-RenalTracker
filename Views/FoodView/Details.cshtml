@@ -19,16 +19,43 @@
         @Html.DisplayFor(model => model.Food.First().Description)
     </dt>
     <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.BrandedFood.First().ServingSize)
+    </dt>
+    <dt class="col-sm-10">
+        @Html.DisplayFor(model => model.BrandedFood.First().HouseholdServingFulltext)
+        <span>,</span>
+        @Html.DisplayFor(model => model.BrandedFood.First().ServingSize)
+        @Html.DisplayFor(model => model.BrandedFood.First().ServingSizeUnit)
+    </dt>
+    <dt class="col-sm-2">
         Nutrients:
     </dt>
     <dt class="col-sm-10">
         @for (int i = 0; i < Model.FoodNutrient?.Count(); i++)
         {
+            int protein = 1003;
+            int fat = 1004;
+            int carbohydrate = 1005;
+            int calorie = 1008;
+            int phosphorus = 1091;
+            int potassium = 1092;
+            int sodium = 1093;
+            //if no calories listed, calculate them.
+            if(Model.FoodNutrient.Where(i => i.NutrientId == calorie).Count() == 0)
+            {
+                
+                double numProteinAndCarbs = Model.FoodNutrient.Where(i => i.NutrientId == protein || i.NutrientId == carbohydrate).Sum(i => i.Amount);
+                double numFat = Model.FoodNutrient.Where(i => i.NutrientId == fat).First().Amount;
+                Model.FoodNutrient = Model.FoodNutrient.Append<FoodNutrient>(new FoodNutrient { NutrientId = (short)calorie, Amount = double.Truncate((4 * numProteinAndCarbs + 9 * numFat)) });
+                Model.FoodNutrient = Model.FoodNutrient.OrderBy(i => i.NutrientId);
+            }
+            //If Phosphorus, Potassium, or Sodium and not low amounts, display in red text
             int nutrientId = Model.FoodNutrient.ElementAt(i).NutrientId;
-            @if (nutrientId == 1091 || (nutrientId == 1092 && Model.FoodNutrient.ElementAt(i).Amount > 200) || (nutrientId == 1093 && Model.FoodNutrient.ElementAt(i).Amount > 240))
+            double amount = Model.FoodNutrient.ElementAt(i).Amount;
+            @if (nutrientId == phosphorus || (nutrientId == potassium && amount > 200) || (nutrientId == sodium && amount > 240))
             {
                 <span class="text-danger">
-                    @Html.DisplayFor(model => model.Nutrient!.Where(item => item.Id == nutrientId).First().Name)
+                    @Html.DisplayFor(model => model.Nutrient!.Where(i => i.Id == nutrientId).First().Name)
                     <span>&nbsp;</span>
                     @Html.DisplayFor(model => model.FoodNutrient!.ElementAt(i).Amount)
                     @Html.DisplayFor(model => model.Nutrient!.Where(i => i.Id == nutrientId).First().UnitName)
