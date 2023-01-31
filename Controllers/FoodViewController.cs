@@ -8,14 +8,18 @@ namespace RenalTracker.Controllers
 {
     public class FoodViewController : Controller
     {
-        private readonly FoodDbContext dbContext = new FoodDbContext();
+        private readonly FoodDbContext _dbContext;
+        public FoodViewController(FoodDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
 
         public IActionResult Index(int id = 344604, int numResults = 25)
         {
             var tables = new FoodViewModel
             {
-                BrandedFood = dbContext.BrandedFoods.Where(i => i.FdcId >= id && i.FdcId < id+numResults).ToList(),
-                Food = dbContext.Foods.Where(i => i.FdcId >= id && i.FdcId < id+numResults).ToList(),
+                BrandedFood = _dbContext.BrandedFoods.Where(i => i.FdcId >= id && i.FdcId < id+numResults).ToList(),
+                Food = _dbContext.Foods.Where(i => i.FdcId >= id && i.FdcId < id+numResults).ToList(),
                 FoodNutrient = null,
                 Nutrient = null
                 //FoodNutrient = dbContext.FoodNutrients.Where(i => i.FdcId == ).ToList(),
@@ -29,15 +33,15 @@ namespace RenalTracker.Controllers
         }
         public IActionResult Details(int? id)
         {
-            if(id == null || dbContext == null)
+            if(id == null || _dbContext == null)
             {
                 return NotFound();
             }
             var table = new FoodViewModel();
-            table.BrandedFood = dbContext.BrandedFoods.Where(i => i.FdcId == id).ToList();
-            table.Food = dbContext.Foods.Where(i => i.FdcId == id).ToList();
-            table.FoodNutrient = dbContext.FoodNutrients.Where(i => i.FdcId == id);
-            table.Nutrient = dbContext.Nutrients;
+            table.BrandedFood = _dbContext.BrandedFoods.Where(i => i.FdcId == id).ToList();
+            table.Food = _dbContext.Foods.Where(i => i.FdcId == id).ToList();
+            table.FoodNutrient = _dbContext.FoodNutrients.Where(i => i.FdcId == id);
+            table.Nutrient = _dbContext.Nutrients;
 
             return View(table);
         }
