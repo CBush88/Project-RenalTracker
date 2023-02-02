@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using RenalTracker.Models;
+using RenalTracker.ViewModel;
 
 namespace RenalTracker.Models;
 
@@ -30,7 +31,7 @@ public partial class FoodDbContext : DbContext
 
     public virtual DbSet<Nutrient> Nutrients { get; set; }
     public virtual DbSet<Meal> Meals { get; set; }
-    public virtual DbSet<Day> DailyIntakes { get; set; }
+    public virtual DbSet<Day> Days { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -89,7 +90,7 @@ public partial class FoodDbContext : DbContext
             entity.Property(e => e.MealId).ValueGeneratedOnAdd();
             entity.HasOne(d => d.Day).WithMany(m => m.Meals)
             .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_meal_daily_intake");
+            .HasConstraintName("FK_meal_day");
         });
 
         modelBuilder.Entity<Day>(entity =>
@@ -97,13 +98,21 @@ public partial class FoodDbContext : DbContext
             entity.Property(e => e.DateId).HasDefaultValue((int) (DateTime.Now - DateTime.Parse("1-1-2023")).Days);
             entity.HasMany(d => d.Meals).WithOne(m => m.Day)
             .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_daily_intake_meal");
+            .HasConstraintName("FK_day_meal");
         });
+
+        //modelBuilder.Entity<DailyViewModel>(entity =>
+        //{
+        //    entity.Property(e => e.Id).HasDefaultValue(3);
+        //});
 
         OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-    public DbSet<RenalTracker.Models.Day> DailyIntake { get; set; } = default!;
+    public DbSet<RenalTracker.ViewModel.MealViewModel> MealViewModel { get; set; } = default!;
+
+    //public DbSet<RenalTracker.ViewModel.DailyViewModel> DailyViewModel { get; set; } = default!;
+
 }

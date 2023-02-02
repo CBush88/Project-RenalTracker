@@ -17,6 +17,7 @@ namespace RenalTracker.Models
         public DateTime Date { get; set; }
 
         [InverseProperty("Day")]
-        public virtual IEnumerable<Meal>? Meals { get; set; }
+        public virtual IEnumerable<Meal> Meals { get; set; }
+
     }
 }
