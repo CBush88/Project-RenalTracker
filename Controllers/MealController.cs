@@ -38,22 +38,24 @@ namespace RenalTracker.Controllers
                 .Include(m => m.BrandedFood)
                 .Include(m => m.Day)
                 .Include(m => m.Food)
+                .ThenInclude(f => f.FoodNutrients)
                 .FirstOrDefaultAsync(m => m.MealId == id);
             if (meal == null)
             {
                 return NotFound();
             }
 
-            return View(meal);
+            return View(meal.ToModel());
         }
 
         // GET: Meal/Create
         public IActionResult Create()
         {
-            ViewData["FdcId"] = new SelectList(_context.BrandedFoods, "FdcId", "FdcId");
-            ViewData["DateId"] = new SelectList(_context.Days, "DateId", "DateId");
-            ViewData["FdcId"] = new SelectList(_context.Foods, "FdcId", "FdcId");
-            return View();
+            //ViewData["FdcId"] = new SelectList(_context.BrandedFoods, "FdcId", "FdcId");
+            //ViewData["DateId"] = new SelectList(_context.Days, "DateId", "DateId");
+            //ViewData["FdcId"] = new SelectList(_context.Foods, "FdcId", "Description");
+
+            return Redirect("/FoodView?q=pop&numResults=100");
         }
 
         // POST: Meal/Create
