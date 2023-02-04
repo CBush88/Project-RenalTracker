@@ -14,14 +14,26 @@ namespace RenalTracker.Controllers
             _dbContext = dbContext;
         }
 
-        public IActionResult Index(int id = 344604, int numResults = 25)
+        public IActionResult Index(string q, int numResults = 25)
         {
+            List<Food> food = _dbContext.Foods.Where(i => i.Description.Contains(q)).Take(numResults).ToList();
+            List<BrandedFood> bf = new();
+
+            food.ForEach(i =>
+            {
+                bf.Add(_dbContext.BrandedFoods.Where(j => j.FdcId == i.FdcId).SingleOrDefault());
+            });
+
+
+
             var tables = new FoodViewModel
             {
-                BrandedFood = _dbContext.BrandedFoods.Where(i => i.FdcId >= id && i.FdcId < id+numResults).ToList(),
-                Food = _dbContext.Foods.Where(i => i.FdcId >= id && i.FdcId < id+numResults).ToList(),
+                Food = food,
+                BrandedFood = bf,
                 FoodNutrient = null,
                 Nutrient = null
+                //BrandedFood = _dbContext.BrandedFoods.Where(i => i.FdcId >= id && i.FdcId < id+numResults).ToList(),
+                //Food = _dbContext.Foods.Where(i => i.FdcId >= id && i.FdcId < id+numResults).ToList(),
                 //FoodNutrient = dbContext.FoodNutrients.Where(i => i.FdcId == ).ToList(),
                 //Nutrient = dbContext.Nutrients.Where().ToList()
             };
