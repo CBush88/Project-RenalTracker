@@ -23,8 +23,16 @@
         <tr>
         <td>@Html.DisplayFor(item => Model.BrandedFood.ElementAt(i).BrandOwner)</td>
         <td>@Html.DisplayFor(item => Model.Food.ElementAt(i).Description)</td>
-        <td><a asp-action="Details" asp-route-id="@Model.Food.ElementAt(i).FdcId">Details</a></td>
+        <td><a asp-action="Details" asp-route-id="@Model.Food.ElementAt(i).FdcId">Details</a>
+            <a onclick="add(@Model.Food.ElementAt(i).FdcId)">Add</a>
+        </td>
         </tr>
     }
 
 </table>
+<script>
+    function add(id){
+        sessionStorage.setItem("FdcId", id.toString());
+        location.replace("/meal");
+    }
+</script>

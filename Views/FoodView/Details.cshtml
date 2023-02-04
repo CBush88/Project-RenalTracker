@@ -82,3 +82,12 @@
     </dt>
 </dl>
 
+<button onclick="add(@Model.Food.First().FdcId)">Add</button>
+
+<script>
+    function add(id) {
+        sessionStorage.setItem("FdcId", id.toString());
+        location.replace("/meal");
+    }
+</script>
+
