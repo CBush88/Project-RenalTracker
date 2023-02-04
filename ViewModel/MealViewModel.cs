@@ -11,9 +11,9 @@ namespace RenalTracker.ViewModel
         [Key]
         public int MealId { get; set; }
 
-        public int FdcId { get; set; }
+        public string Description { get; set; }
 
-        public int DateId { get; set; }
+        public string Date { get; set; }
 
         public decimal Servings { get; set; }
 

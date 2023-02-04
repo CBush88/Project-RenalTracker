@@ -16,8 +16,8 @@ namespace RenalTracker.Models
             return new MealViewModel()
             {
                 MealId = meal.MealId,
-                FdcId = meal.FdcId,
-                DateId = meal.DateId,
+                Description = meal.Food.Description,
+                Date = meal.Day.Date.ToShortDateString(),
                 Servings = meal.Servings,
                 BrandedFood = meal.BrandedFood,
                 Food = meal.Food,
