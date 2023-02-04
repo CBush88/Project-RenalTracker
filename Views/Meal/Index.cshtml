@@ -13,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FdcId)
+                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateId)
+                @Html.DisplayNameFor(model => model.Date)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Servings)
@@ -49,10 +49,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FdcId)
+                @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DateId)
+                @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Servings)
@@ -87,3 +87,10 @@
 }
     </tbody>
 </table>
+<button onclick="test()">Test</button>
+<div id="test"></div>
+<script>
+    function test(){
+        document.getElementById("test").textContent = sessionStorage.getItem("FdcId").toString();
+    }
+</script>
