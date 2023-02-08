@@ -7,7 +7,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-controller="foodview" asp-action="">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -87,10 +87,3 @@
 }
     </tbody>
 </table>
-<button onclick="test()">Test</button>
-<div id="test"></div>
-<script>
-    function test(){
-        document.getElementById("test").textContent = sessionStorage.getItem("FdcId").toString();
-    }
-</script>

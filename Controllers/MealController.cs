@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using RenalTracker.Models;
 
@@ -49,13 +50,28 @@ namespace RenalTracker.Controllers
         }
 
         // GET: Meal/Create
-        public IActionResult Create()
+        public RedirectResult Create(int FdcId, decimal Servings, DateTime Date)
         {
-            //ViewData["FdcId"] = new SelectList(_context.BrandedFoods, "FdcId", "FdcId");
-            //ViewData["DateId"] = new SelectList(_context.Days, "DateId", "DateId");
-            //ViewData["FdcId"] = new SelectList(_context.Foods, "FdcId", "Description");
+            int DateId = Date.Subtract(DateTime.Parse("1-1-2023")).Days;
+            Meal meal = new Meal()
+            {
+                //MealId = _context.Meals.Count(),
+                FdcId = FdcId,
+                DateId = DateId,
+                Servings = Servings,
+            };
+            if(_context.Days.Where(d => d.DateId == DateId).Count() == 0)
+            {
+                _context.Days.Add(new Day()
+                {
+                    DateId = DateId,
+                    Date = Date,
+                });
+            }
+            _context.Meals.Add(meal);
+            _context.SaveChanges();
 
-            return Redirect("/FoodView?q=pop&numResults=100");
+            return Redirect("index");
         }
 
         // POST: Meal/Create
@@ -85,14 +101,17 @@ namespace RenalTracker.Controllers
                 return NotFound();
             }
 
-            var meal = await _context.Meals.FindAsync(id);
+            var meal = _context.Meals
+                .Include(m => m.Food)
+                .ThenInclude(f => f.FoodNutrients)
+                .Include(m => m.BrandedFood)
+                .Include(m => m.Day)
+                .Where(m => m.MealId == id)
+                .SingleOrDefault();
             if (meal == null)
             {
                 return NotFound();
             }
-            ViewData["FdcId"] = new SelectList(_context.BrandedFoods, "FdcId", "FdcId", meal.FdcId);
-            ViewData["DateId"] = new SelectList(_context.Days, "DateId", "DateId", meal.DateId);
-            ViewData["FdcId"] = new SelectList(_context.Foods, "FdcId", "FdcId", meal.FdcId);
             return View(meal);
         }
 
@@ -128,9 +147,9 @@ namespace RenalTracker.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FdcId"] = new SelectList(_context.BrandedFoods, "FdcId", "FdcId", meal.FdcId);
-            ViewData["DateId"] = new SelectList(_context.Days, "DateId", "DateId", meal.DateId);
-            ViewData["FdcId"] = new SelectList(_context.Foods, "FdcId", "FdcId", meal.FdcId);
+            //ViewData["FdcId"] = new SelectList(_context.BrandedFoods, "FdcId", "FdcId", meal.FdcId);
+            //ViewData["DateId"] = new SelectList(_context.Days, "DateId", "DateId", meal.DateId);
+            //ViewData["FdcId"] = new SelectList(_context.Foods, "FdcId", "FdcId", meal.FdcId);
             return View(meal);
         }
 

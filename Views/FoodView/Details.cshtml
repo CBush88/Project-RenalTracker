@@ -82,12 +82,27 @@
     </dt>
 </dl>
 
+<form>
+    <input type="hidden" name="fdcId" id="fdcId" value="@Model.Food.First().FdcId"/>
+    <label for="Servings">Servings: </label>
+    <input type="text" name="servings" id="servings"  />
+    <br />
+    <label for="date">Date: </label>
+    <input type="date" name="date" id="date" value=@DateTime.Now.Date />
+    <br />
+</form>
+
 <button onclick="add(@Model.Food.First().FdcId)">Add</button>
 
 <script>
-    function add(id) {
-        sessionStorage.setItem("FdcId", id.toString());
-        location.replace("/meal");
+    function add() {
+        let fdcId = document.getElementById("fdcId").value
+        let servings = document.getElementById("servings").value
+        let date = document.getElementById("date").value
+
+        location.replace(`/meal/create?FdcId=${fdcId}&Servings=${servings}&Date=${date}`);
+        //sessionStorage.setItem("FdcId", id.toString());
+        //sessionStorage.setItem("Servings", )
     }
 </script>
 

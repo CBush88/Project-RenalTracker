@@ -22,13 +22,13 @@ namespace RenalTracker.Models
                 BrandedFood = meal.BrandedFood,
                 Food = meal.Food,
                 Day = meal.Day,
-                Calories = (double)meal.Servings * ((meal.Food.FoodNutrients.SingleOrDefault(fn => fn.NutrientId == 1008) != null) ? meal.Food.FoodNutrients.Single(fn => fn.NutrientId == 1008).Amount : CalculatedCalories),
-                Carbohydrates = (double)meal.Servings * Carbohydrates,
-                Protein = (double)meal.Servings * Protein,
-                Fat = (double) meal.Servings * Fat,
-                Phosphorus = (double)meal.Servings * ((meal.Food.FoodNutrients.SingleOrDefault(fn => fn.NutrientId == 1091) != null) ? meal.Food.FoodNutrients.Single(fn => fn.NutrientId == 1091).Amount : 0.0),
-                Potassium = (double)meal.Servings * ((meal.Food.FoodNutrients.SingleOrDefault(fn => fn.NutrientId == 1092) != null) ? meal.Food.FoodNutrients.Single(fn => fn.NutrientId == 1092).Amount : 0.0),
-                Sodium = (double)meal.Servings * ((meal.Food.FoodNutrients.SingleOrDefault(fn => fn.NutrientId == 1093) != null) ? meal.Food.FoodNutrients.Single(fn => fn.NutrientId == 1093).Amount : 0.0)
+                Calories = double.Round((double)meal.Servings * ((meal.Food.FoodNutrients.SingleOrDefault(fn => fn.NutrientId == 1008) != null) ? meal.Food.FoodNutrients.Single(fn => fn.NutrientId == 1008).Amount : CalculatedCalories)),
+                Carbohydrates = double.Round((double)meal.Servings * Carbohydrates),
+                Protein = double.Round((double)meal.Servings * Protein),
+                Fat = double.Round((double) meal.Servings * Fat),
+                Phosphorus = double.Round((double)meal.Servings * ((meal.Food.FoodNutrients.SingleOrDefault(fn => fn.NutrientId == 1091) != null) ? meal.Food.FoodNutrients.Single(fn => fn.NutrientId == 1091).Amount : 0.0)),
+                Potassium = double.Round((double)meal.Servings * ((meal.Food.FoodNutrients.SingleOrDefault(fn => fn.NutrientId == 1092) != null) ? meal.Food.FoodNutrients.Single(fn => fn.NutrientId == 1092).Amount : 0.0)),
+                Sodium = double.Round((double)meal.Servings * ((meal.Food.FoodNutrients.SingleOrDefault(fn => fn.NutrientId == 1093) != null) ? meal.Food.FoodNutrients.Single(fn => fn.NutrientId == 1093).Amount : 0.0))
 
             };
         }

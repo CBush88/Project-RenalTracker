@@ -6,6 +6,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RenalTracker.ViewModel
 {
+    static class ToMealClass
+    {
+        static Meal ToMeal(this MealViewModel meal)
+        {
+            return new Meal()
+            {
+                MealId = meal.MealId,
+                FdcId = meal.Food.FdcId,
+                DateId = meal.Day.DateId,
+                Servings = meal.Servings,
+            };
+        }
+    }
     public class MealViewModel
     {
         [Key]

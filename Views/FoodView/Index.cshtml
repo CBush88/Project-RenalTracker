@@ -5,6 +5,17 @@
 
 <h1>Index</h1>
 
+@if(Model == null)
+{
+    <div class="row">
+    <form onsubmit="onSubmit">
+        <label class="col col-md-1" for="q">Search Food: </label>
+        <input name="q" class="col col-md 5" id="q" type="search" />
+        <input type="submit" class="col-md-2">
+    </form>
+    </div>
+}else
+{
 <table class="table">
     <thead>
         <tr>
@@ -36,3 +47,4 @@
         location.replace("/meal");
     }
 </script>
+}

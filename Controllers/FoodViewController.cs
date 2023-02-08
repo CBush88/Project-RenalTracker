@@ -14,8 +14,13 @@ namespace RenalTracker.Controllers
             _dbContext = dbContext;
         }
 
+
         public IActionResult Index(string q, int numResults = 25)
         {
+            if(q == null)
+            {
+                return View();
+            }
             List<Food> food = _dbContext.Foods.Where(i => i.Description.Contains(q)).Take(numResults).ToList();
             List<BrandedFood> bf = new();
 
